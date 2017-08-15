@@ -83,4 +83,89 @@ class Module extends \Aurora\System\Module\AbstractModule
 	{
 		return ($iCount <= $this->GetUsersCount('System')) ;
 	}
+	
+	public function ValidatePeriod()
+	{
+		$bResult = true;
+		$aInfo = $this->GetPartKeyInfo('System');
+		if (isset($aInfo[1]) && $aInfo[1] !== '*')
+		{
+			$iTime = (int) $aInfo[1];
+			$iDeltaTime = $iTime - time();
+			if ($iDeltaTime < 1)
+			{
+				$bResult = false;
+			}
+		}
+		
+		return $bResult;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function GetUserNumberLimitAsString()
+	{
+		$aInfo = $this->GetPartKeyInfo('System');
+		$sResult = $aInfo ? 'Empty' : 'Invalid';
+		if (isset($aInfo[2]))
+		{
+			switch ($aInfo[2])
+			{
+				case 0:
+					$sResult = 'Unlim';
+					break;
+				case 1:
+					$sResult = $aInfo[0].' users, Permanent';
+					break;
+				case 2:
+					$sResult = $aInfo[0].' domains';
+					break;
+				case 3:
+					$sResult =  $aInfo[0].' users, Annual';
+					if (isset($aInfo[1]) && $aInfo[1] !== '*')
+					{
+						$iTime = (int) $aInfo[1];
+						$iDeltaTime = $iTime - time();
+						if ($iDeltaTime > 0)
+						{
+							$sResult .= ', expires in '.ceil($iDeltaTime / 60 / 60 / 24).' day(s).';
+						}
+						else
+						{
+					$sResult = $aInfo[0].' users, Annual, Expired.
+This license is outdated, please contact AfterLogic to upgrade your license key.';
+						}
+					}
+					break;
+				case 4:
+					$iTime = (int) $aInfo[1];
+					$iDeltaTime = $iTime - time();
+					if ($iDeltaTime < 1)
+					{
+						$sResult = 'This license is outdated, please contact AfterLogic to upgrade your license key.';
+					}
+					break;
+				case 10:
+					$sResult = 'Trial';
+					if (isset($aInfo[1]) && $aInfo[1] !== '*')
+					{
+						$iTime = (int) $aInfo[1];
+						$iDeltaTime = $iTime - time();
+						if ($iDeltaTime > 0)
+						{
+							$sResult .= ', expires in '.ceil($iDeltaTime / 60 / 60 / 24).' day(s).';
+						}
+						else
+						{
+							$sResult = $aInfo[0].' users, Annual, Expired.
+This license is outdated, please contact AfterLogic to upgrade your license key.';
+						}
+					}
+					break;
+			}
+		}
+
+		return $sResult;
+	}	
 }
