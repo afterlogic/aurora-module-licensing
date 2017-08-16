@@ -81,7 +81,14 @@ class Module extends \Aurora\System\Module\AbstractModule
 	
 	public function ValidateUsersCount($iCount)
 	{
-		return ($iCount <= $this->GetUsersCount('System')) ;
+		$bResult = true;
+		$aInfo = $this->GetPartKeyInfo('System');
+		if ($aInfo[3] !== 10 && $aInfo[3] !== 0)
+		{
+			$bResult = ($iCount <= $this->GetUsersCount('System'));
+		}
+		
+		return $bResult;
 	}
 	
 	public function ValidatePeriod()
