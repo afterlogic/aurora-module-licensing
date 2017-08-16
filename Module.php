@@ -101,6 +101,44 @@ class Module extends \Aurora\System\Module\AbstractModule
 		return $bResult;
 	}
 
+	public function GetSettings()
+	{
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
+		
+		$oSettings =& \Aurora\System\Api::GetSettings();
+		return array(
+			'LicenseKey' => $oSettings->GetConf('LicenseKey'),
+		);
+	}
+	
+	public function UpdateSettings($LicenseKey)
+	{
+		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
+		
+		$oSettings =&\Aurora\System\Api::GetSettings();
+		if ($LicenseKey !== null)
+		{
+			$oSettings->SetConf('LicenseKey', $LicenseKey);
+		}
+		return $oSettings->Save();
+	}
+	
+	public function GetLicenseInfo()
+	{
+		$mResult = false;
+		$aInfo = $this->GetPartKeyInfo('System');
+		if (isset($aInfo[2]))
+		{
+			$mResult = array(
+				'Count' => (int) $aInfo[0],
+				'DateTime' => $aInfo[1],
+				'Type' => (int) $aInfo[2],
+				'ExpiresIn' => $aInfo[1] !== '*' ? ceil(((int) $aInfo[1] - time()) / 60 / 60 / 24) : '*',
+			);
+		}
+		return $mResult;
+	}
+	
 	/**
 	 * @return int
 	 */
