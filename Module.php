@@ -83,7 +83,9 @@ class Module extends \Aurora\System\Module\AbstractModule
 	{
 		$bResult = true;
 		$aInfo = $this->GetPartKeyInfo('System');
-		if ($aInfo[2] !== 10 || $aInfo[2] !== 0)
+		$iType = (int) $aInfo[2];
+		
+		if ($iType !== 10 && $iType !== 0)
 		{
 			$bResult = ($iCount <= $this->GetUsersCount('System'));
 		}
