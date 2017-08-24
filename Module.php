@@ -118,6 +118,9 @@ class Module extends \Aurora\System\Module\AbstractModule
 		);
 	}
 	
+	/**
+	 * @return bool
+	 */
 	public function UpdateSettings($LicenseKey)
 	{
 		$bResult = false;
