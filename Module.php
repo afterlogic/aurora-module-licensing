@@ -87,7 +87,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		
 		if ($iType !== 10 && $iType !== 0)
 		{
-			$bResult = ($iCount <= $this->GetUsersCount('System'));
+			$bResult = ($iCount < $this->GetUsersCount('System'));
 		}
 		
 		return $bResult;
