@@ -6,10 +6,15 @@ include_once __DIR__.'\classes\KI.php';
 
 class Module extends \Aurora\System\Module\AbstractModule
 {
+	public function GetLicenseKey()
+	{
+		return \Aurora\System\Api::GetSettings()->GetConf('LicenseKey');
+	}
+
 	protected function getKeyInfo()
 	{
 		$mResult = false;
-		$sKey = \Aurora\System\Api::GetSettings()->GetConf('LicenseKey');
+		$sKey = $this->GetLicenseKey();
 		
 		if (isset($sKey))
 		{
@@ -20,18 +25,12 @@ class Module extends \Aurora\System\Module\AbstractModule
 		return $mResult;
 	}
 	
-	public function GetLicenseKey()
-	{
-		return \Aurora\System\Api::GetSettings()->GetConf('LicenseKey');
-	}
-	
 	public function GetLicenseKeyPrefix()
 	{
-		$sKey = \Aurora\System\Api::GetSettings()->GetConf('LicenseKey');
+		$sKey = $this->GetLicenseKey();
 		$aParts = \explode('-', $sKey);
 		return \array_shift($aParts);
 	}
-	
 	
 	protected function GetPartKeyInfo($sPart)
 	{
