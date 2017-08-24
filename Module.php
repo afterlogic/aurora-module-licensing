@@ -113,22 +113,21 @@ class Module extends \Aurora\System\Module\AbstractModule
 	{
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 		
-		$oSettings =& \Aurora\System\Api::GetSettings();
 		return array(
-			'LicenseKey' => $oSettings->GetConf('LicenseKey'),
+			'LicenseKey' => $this->GetLicenseKey(),
 		);
 	}
 	
 	public function UpdateSettings($LicenseKey)
 	{
+		$bResult = false;
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 		
-		$oSettings =&\Aurora\System\Api::GetSettings();
 		if ($LicenseKey !== null)
 		{
-			$oSettings->SetConf('LicenseKey', $LicenseKey);
+			\Aurora\System\Api::GetSettings()->SetConf('LicenseKey', $LicenseKey);
+			$bResult = \Aurora\System\Api::GetSettings()->Save();
 		}
-		return $oSettings->Save();
 	}
 	
 	public function GetLicenseInfo()
