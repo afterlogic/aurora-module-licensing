@@ -2,7 +2,7 @@
 
 namespace Aurora\Modules\Licensing;
 
-include_once __DIR__.'\classes\KI.php';
+include_once __DIR__.'/classes/KI.php';
 
 class Module extends \Aurora\System\Module\AbstractModule
 {
