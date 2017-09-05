@@ -131,6 +131,8 @@ class Module extends \Aurora\System\Module\AbstractModule
 			\Aurora\System\Api::GetSettings()->SetConf('LicenseKey', $LicenseKey);
 			$bResult = \Aurora\System\Api::GetSettings()->Save();
 		}
+		
+		return $bResult;
 	}
 	
 	public function GetLicenseInfo()
