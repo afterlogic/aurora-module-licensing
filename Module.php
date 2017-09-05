@@ -92,7 +92,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		return $bResult;
 	}
 	
-	public function ValidatePeriod()
+	public function ValidatPeriod()
 	{
 		$bResult = true;
 		$aInfo = $this->GetPartKeyInfo('System');
