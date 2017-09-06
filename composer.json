@@ -1,14 +1,9 @@
 {
 	"name": "afterlogic/aurora-module-licensing",
-    	"version":"0.1.0",
-    	"type": "aurora-module",
-    	"dist":{
-               "url":"https://github.com/afterlogic/aurora-module-licensing/archive/master.zip",
-                "type":"zip"
-        },
+	"type": "aurora-module",
 	"require":{
 		"php":">=5.4.0",
-		"afterlogic/aurora-framework": "~0.5 || dev-master"
+		"afterlogic/aurora-framework": "~0.6 || dev-master"
 	},
 	"extra": {
 		"installer-name": "Licensing"
