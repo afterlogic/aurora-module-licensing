@@ -8,15 +8,15 @@ class Module extends \Aurora\System\Module\AbstractModule
 {
 	public function GetLicenseKey()
 	{
-		return \Aurora\System\Api::GetSettings()->GetConf('LicenseKey');
+		return \Aurora\System\Api::GetSettings()->GetConf('LicenseKey', '');
 	}
 
 	protected function getKeyInfo()
 	{
 		$mResult = false;
-		$sKey = $this->GetLicenseKey();
-		
-		if (isset($sKey))
+		$sKey = Module::Decorator()->GetLicenseKey();
+	
+		if (!empty($sKey))
 		{
 			$oKI = new \KI($this->GetLicenseKeyPrefix());
 			$mResult = $oKI->GKI($sKey);
@@ -27,7 +27,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	
 	public function GetLicenseKeyPrefix()
 	{
-		$sKey = $this->GetLicenseKey();
+		$sKey = Module::Decorator()->GetLicenseKey();
 		$aParts = \explode('-', $sKey);
 		return \array_shift($aParts);
 	}
@@ -114,7 +114,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 		
 		return array(
-			'LicenseKey' => $this->GetLicenseKey(),
+			'LicenseKey' => Module::Decorator()->GetLicenseKey(),
 		);
 	}
 	
