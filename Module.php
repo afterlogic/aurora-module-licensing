@@ -122,7 +122,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 
 		return array(
-			'LicenseKey' => isset($this->LicenseKey) ? $this->LicenseKey : Module::Decorator()->GetLicenseKey()
+			'LicenseKey' => $this->LicenseKey ? $this->LicenseKey : Module::Decorator()->GetLicenseKey()
 		);
 	}
 	
