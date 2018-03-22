@@ -90,7 +90,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	{
 		$bResult = true;
 		$aInfo = $this->GetPartKeyInfo('System');
-		if (isset($aInfo[2]))
+		if (is_array($aInfo))
 		{
 			$iType = (int) $aInfo[2];
 
