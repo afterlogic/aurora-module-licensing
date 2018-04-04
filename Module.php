@@ -12,8 +12,12 @@ class Module extends \Aurora\System\Module\AbstractModule
 	{
 		if (!isset($this->LicenseKey))
 		{
-			$this->LicenseKey = \Aurora\System\Api::GetSettings()->GetConf('LicenseKey', '');
-			\Aurora\System\Api::AddSecret($this->LicenseKey);
+			$oSettings = \Aurora\System\Api::GetSettings();
+			if ($oSettings)
+			{
+				$this->LicenseKey = $oSettings->GetConf('LicenseKey', '');
+				\Aurora\System\Api::AddSecret($this->LicenseKey);
+			}
 		}
 		
 		return $this->LicenseKey;
