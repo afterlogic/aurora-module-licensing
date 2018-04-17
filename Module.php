@@ -90,17 +90,17 @@ class Module extends \Aurora\System\Module\AbstractModule
 		return !!$this->GetPartKeyInfo($oModule->GetName()) && !!$this->GetPartKeyInfo('System');
 	}
 	
-	public function ValidateUsersCount($iCount)
+	public function ValidateUsersCount($iCount, $sModule = 'System')
 	{
 		$bResult = true;
-		$aInfo = $this->GetPartKeyInfo('System');
+		$aInfo = $this->GetPartKeyInfo($sModule);
 		if (is_array($aInfo))
 		{
 			$iType = (int) $aInfo[2];
 
 			if ($iType !== 10 && $iType !== 0)
 			{
-				$bResult = ($iCount < $this->GetUsersCount('System'));
+				$bResult = ($iCount < $this->GetUsersCount($sModule));
 			}
 		}
 		else
@@ -111,17 +111,22 @@ class Module extends \Aurora\System\Module\AbstractModule
 		return $bResult;
 	}
 	
-	public function ValidatPeriod()
+	public function ValidatePeriod($sModule = 'System')
 	{
-		$bResult = true;
-		$aInfo = $this->GetPartKeyInfo('System');
-		if (isset($aInfo[1]) && $aInfo[1] !== '*')
+		$bResult = false;
+		
+		$iPeriod = $this->GetPartKeyData($sModule, 1);
+		$iType= $this->GetPartKeyData($sModule, 2);
+				
+		if (!empty($iType))
 		{
-			$iTime = (int) $aInfo[1];
-			$iDeltaTime = $iTime - time();
-			if ($iDeltaTime < 1)
+			if (!empty($iPeriod) && ($iType === 3 || $iType === 4 || $iType === 10))
 			{
-				$bResult = false;
+				$bResult = ((int) $iPeriod - time()) > 0;
+			}
+			else
+			{
+				$bResult = true;
 			}
 		}
 		
@@ -154,10 +159,10 @@ class Module extends \Aurora\System\Module\AbstractModule
 		return $bResult;
 	}
 	
-	public function GetLicenseInfo()
+	public function GetLicenseInfo($Module = 'System')
 	{
 		$mResult = false;
-		$aInfo = $this->GetPartKeyInfo('System');
+		$aInfo = $this->GetPartKeyInfo($Module);
 		if (isset($aInfo[2]))
 		{
 			$mResult = array(
