@@ -175,6 +175,32 @@ class Module extends \Aurora\System\Module\AbstractModule
 		return $mResult;
 	}
 	
+	public function IsTrial($Module = 'System')
+	{
+		$mResult = false;
+		$aInfo = $this->GetPartKeyInfo($Module);
+		
+		if (isset($aInfo[2]))
+		{
+			$mResult = ((int)$aInfo[2] === 10);
+		}
+		
+		return $mResult;
+	}
+	
+	public function IsUnlim($Module = 'System')
+	{
+		$mResult = false;
+		$aInfo = $this->GetPartKeyInfo($Module);
+		
+		if (isset($aInfo[2]))
+		{
+			$mResult = ((int)$aInfo[2] === 0);
+		}
+		
+		return $mResult;
+	}
+
 	/**
 	 * @return int
 	 */
