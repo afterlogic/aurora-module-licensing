@@ -115,8 +115,8 @@ class Module extends \Aurora\System\Module\AbstractModule
 	{
 		$bResult = false;
 		
-		$iPeriod = $this->GetPartKeyData($sModule, 1);
-		$iType= $this->GetPartKeyData($sModule, 2);
+		$iPeriod = (int) $this->GetPartKeyData($sModule, 1);
+		$iType= (int) $this->GetPartKeyData($sModule, 2);
 				
 		if (!empty($iType))
 		{
