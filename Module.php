@@ -115,14 +115,16 @@ class Module extends \Aurora\System\Module\AbstractModule
 	{
 		$bResult = false;
 		
-		$iPeriod = (int) $this->GetPartKeyData($sModule, 1);
-		$iType= (int) $this->GetPartKeyData($sModule, 2);
+		$sPeriod = $this->GetPartKeyData($sModule, 1);
+		$sType= $this->GetPartKeyData($sModule, 2);
 				
-		if (!empty($iType))
+		if (isset($sType))
 		{
-			if (!empty($iPeriod) && ($iType === 3 || $iType === 4 || $iType === 10))
+			$iType = (int) $sType;
+			if (isset($sPeriod) && ($iType === 3 || $iType === 4 || $iType === 10))
 			{
-				$bResult = ((int) $iPeriod - time()) > 0;
+				$iPeriod = (int) $sPeriod;
+				$bResult = ($iPeriod - time()) > 0;
 			}
 			else
 			{
