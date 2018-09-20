@@ -6,27 +6,23 @@ include_once __DIR__.'/classes/KI.php';
 
 class Module extends \Aurora\System\Module\AbstractModule
 {
-	protected $LicenseKey = null;
-	
 	public function GetLicenseKey()
 	{
-		if (!isset($this->LicenseKey))
+		$sResult = null;
+		$oSettings = \Aurora\System\Api::GetSettings();
+		if ($oSettings)
 		{
-			$oSettings = \Aurora\System\Api::GetSettings();
-			if ($oSettings)
-			{
-				$this->LicenseKey = $oSettings->GetConf('LicenseKey', '');
-				\Aurora\System\Api::AddSecret($this->LicenseKey);
-			}
+			$sResult = $oSettings->GetConf('LicenseKey', '');
+			\Aurora\System\Api::AddSecret($sResult);
 		}
 		
-		return $this->LicenseKey;
+		return $sResult;
 	}
 
 	protected function getKeyInfo()
 	{
 		$mResult = false;
-		$sKey = isset($this->LicenseKey) ? $this->LicenseKey : Module::Decorator()->GetLicenseKey();
+		$sKey = Module::Decorator()->GetLicenseKey();
 	
 		if (!empty($sKey))
 		{
@@ -39,7 +35,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	
 	public function GetLicenseKeyPrefix()
 	{
-		$sKey = isset($this->LicenseKey) ? $this->LicenseKey : Module::Decorator()->GetLicenseKey();
+		$sKey = Module::Decorator()->GetLicenseKey();
 		$aParts = \explode('-', $sKey);
 		return \array_shift($aParts);
 	}
@@ -140,7 +136,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		\Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
 
 		return array(
-			'LicenseKey' => $this->LicenseKey ? $this->LicenseKey : Module::Decorator()->GetLicenseKey()
+			'LicenseKey' => Module::Decorator()->GetLicenseKey()
 		);
 	}
 	
