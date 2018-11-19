@@ -6,6 +6,11 @@ include_once __DIR__.'/classes/KI.php';
 
 class Module extends \Aurora\System\Module\AbstractModule
 {
+	public function init()
+	{
+		
+	}
+
 	public function GetLicenseKey()
 	{
 		$sResult = null;
@@ -83,7 +88,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	
 	public function Validate($oModule)
 	{
-		return !!$this->GetPartKeyInfo($oModule->GetName()) && !!$this->GetPartKeyInfo('System');
+		return !!$this->GetPartKeyInfo($oModule::GetName()) && !!$this->GetPartKeyInfo('System');
 	}
 	
 	public function ValidateUsersCount($iCount, $sModule = 'System')
