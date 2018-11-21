@@ -6,6 +6,11 @@ include_once __DIR__.'/classes/KI.php';
 
 class Module extends \Aurora\System\Module\AbstractModule
 {
+
+	protected $key = null;
+
+	protected $keyInfo = false;
+
 	public function init()
 	{
 		
@@ -13,36 +18,40 @@ class Module extends \Aurora\System\Module\AbstractModule
 
 	public function GetLicenseKey()
 	{
-		$sResult = null;
-		$oSettings = \Aurora\System\Api::GetSettings();
-		if ($oSettings)
+		if (!isset($this->key))
 		{
-			$sResult = $oSettings->GetConf('LicenseKey', '');
-			\Aurora\System\Api::AddSecret($sResult);
+			$oSettings = \Aurora\System\Api::GetSettings();
+			if ($oSettings)
+			{
+				$this->key = $oSettings->GetConf('LicenseKey', '');
+				\Aurora\System\Api::AddSecret($this->key);
+			}
 		}
 		
-		return $sResult;
+		return $this->key;
 	}
 
-	protected function getKeyInfo()
-	{
-		$mResult = false;
-		$sKey = Module::Decorator()->GetLicenseKey();
-	
-		if (!empty($sKey))
-		{
-			$oKI = new \KI($this->GetLicenseKeyPrefix());
-			$mResult = $oKI->GKI($sKey);
-		}
-		
-		return $mResult;
-	}
-	
 	public function GetLicenseKeyPrefix()
 	{
 		$sKey = Module::Decorator()->GetLicenseKey();
 		$aParts = \explode('-', $sKey);
 		return \array_shift($aParts);
+	}
+	
+	protected function getKeyInfo()
+	{
+		if (!$this->keyInfo)
+		{
+			$sKey = Module::Decorator()->GetLicenseKey();
+		
+			if (!empty($sKey))
+			{
+				$oKI = new \KI($this->GetLicenseKeyPrefix());
+				$this->keyInfo = $oKI->GKI($sKey);
+			}
+		}
+		
+		return $this->keyInfo;
 	}
 	
 	protected function GetPartKeyInfo($sPart)
@@ -86,9 +95,9 @@ class Module extends \Aurora\System\Module\AbstractModule
 		return $this->GetPartKeyData($Module, 0);
 	}
 	
-	public function Validate($oModule)
+	public function Validate($sModule)
 	{
-		return !!$this->GetPartKeyInfo($oModule::GetName()) && !!$this->GetPartKeyInfo('System');
+		return !!$this->GetPartKeyInfo($sModule) && !!$this->GetPartKeyInfo('System');
 	}
 	
 	public function ValidateUsersCount($iCount, $sModule = 'System')
