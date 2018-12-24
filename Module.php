@@ -16,6 +16,12 @@ class Module extends \Aurora\System\Module\AbstractModule
 		
 	}
 
+	public function ResetKey()
+	{
+		$this->key = null;
+		$this->keyInfo = false;
+	}
+
 	public function GetLicenseKey()
 	{
 		if (!isset($this->key))
