@@ -29,7 +29,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 			$oSettings = \Aurora\System\Api::GetSettings();
 			if ($oSettings)
 			{
-				$this->key = $oSettings->GetConf('LicenseKey', '');
+				$this->key = $oSettings->GetValue('LicenseKey', '');
 				\Aurora\System\Api::AddSecret($this->key);
 			}
 		}
@@ -170,7 +170,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		
 		if ($LicenseKey !== null)
 		{
-			\Aurora\System\Api::GetSettings()->SetConf('LicenseKey', $LicenseKey);
+			\Aurora\System\Api::GetSettings()->LicenseKey = $LicenseKey;
 			$bResult = \Aurora\System\Api::GetSettings()->Save();
 		}
 		
