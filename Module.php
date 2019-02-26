@@ -6,15 +6,13 @@ include_once __DIR__.'/classes/KI.php';
 
 class Module extends \Aurora\System\Module\AbstractModule
 {
-
 	protected $key = null;
 
 	protected $keyInfo = false;
 
-	public function init()
-	{
-		
-	}
+	protected $bIsPermanent = true;
+
+	public function init() {}
 
 	public function ResetKey()
 	{
