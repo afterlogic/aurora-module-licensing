@@ -250,7 +250,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 						else
 						{
 					$sResult = $aInfo[0].' users, Annual, Expired.
-This license is outdated, please contact AfterLogic to upgrade your license key.';
+This license is outdated, please contact Afterlogic to upgrade your license key.';
 						}
 					}
 					break;
@@ -259,7 +259,7 @@ This license is outdated, please contact AfterLogic to upgrade your license key.
 					$iDeltaTime = $iTime - time();
 					if ($iDeltaTime < 1)
 					{
-						$sResult = 'This license is outdated, please contact AfterLogic to upgrade your license key.';
+						$sResult = 'This license is outdated, please contact Afterlogic to upgrade your license key.';
 					}
 					break;
 				case 10:
@@ -275,7 +275,7 @@ This license is outdated, please contact AfterLogic to upgrade your license key.
 						else
 						{
 							$sResult = $aInfo[0].' users, Annual, Expired.
-This license is outdated, please contact AfterLogic to upgrade your license key.';
+This license is outdated, please contact Afterlogic to upgrade your license key.';
 						}
 					}
 					break;
