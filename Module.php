@@ -70,7 +70,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		return $this->keyInfo;
 	}
 	
-	protected function GetPartKeyInfo($sPart)
+	protected function GetPartKeyInfo($sPart = 'System')
 	{
 		$mResult = false;
 		$aKeyInfo = $this->getKeyInfo();
@@ -113,7 +113,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 	
 	public function Validate($sModule)
 	{
-		return !!$this->GetPartKeyInfo($sModule) && !!$this->GetPartKeyInfo('System');
+		return !!$this->GetPartKeyInfo($sModule) ? true : $this->IsTrial() && !!$this->GetPartKeyInfo();
 	}
 	
 	public function ValidateUsersCount($iCount, $sModule = 'System')
