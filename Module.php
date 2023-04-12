@@ -28,6 +28,15 @@ class Module extends \Aurora\System\Module\AbstractModule
     {
     }
 
+    /**
+     *
+     * @return Module
+     */
+    public static function Decorator()
+    {
+        return parent::Decorator();
+    }
+
     public function ResetKey()
     {
         $this->key = null;
@@ -47,20 +56,13 @@ class Module extends \Aurora\System\Module\AbstractModule
         return $this->key;
     }
 
-    public function GetLicenseKeyPrefix()
-    {
-        $sKey = Module::Decorator()->GetLicenseKey();
-        $aParts = \explode('-', $sKey);
-        return \array_shift($aParts);
-    }
-
     protected function getKeyInfo()
     {
         if (!$this->keyInfo) {
             $sKey = Module::Decorator()->GetLicenseKey();
 
             if (!empty($sKey)) {
-                $oKI = new \KI($this->GetLicenseKeyPrefix());
+                $oKI = new \KI();
                 $this->keyInfo = $oKI->GKI($sKey);
             }
         }
