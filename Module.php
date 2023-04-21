@@ -65,7 +65,7 @@ class Module extends \Aurora\System\Module\AbstractModule
         if (!isset($this->key)) {
             $oSettings = \Aurora\System\Api::GetSettings();
             if ($oSettings) {
-                $this->key = $oSettings->GetValue('LicenseKey', '');
+                $this->key = $oSettings->LicenseKey;
                 \Aurora\System\Api::AddSecret($this->key);
             }
         }
