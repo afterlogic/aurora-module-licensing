@@ -28,6 +28,15 @@ class Module extends \Aurora\System\Module\AbstractModule
 
     public function init()
     {
+        $this->denyMethodsCallByWebApi([
+            'GetLicenseKey',
+            'GetUsersCount',
+            'Validate',
+            'ValidateUsersCount',
+            'ValidatePeriod',
+            'IsTrial',
+            'IsUnlim',
+        ]);
     }
 
     /**
@@ -54,24 +63,7 @@ class Module extends \Aurora\System\Module\AbstractModule
         return $this->oModuleSettings;
     }
 
-    public function ResetKey()
-    {
-        $this->key = null;
-        $this->keyInfo = false;
-    }
-
-    public function GetLicenseKey()
-    {
-        if (!isset($this->key)) {
-            $oSettings = \Aurora\System\Api::GetSettings();
-            if ($oSettings) {
-                $this->key = $oSettings->LicenseKey;
-                \Aurora\System\Api::AddSecret($this->key);
-            }
-        }
-
-        return $this->key;
-    }
+    /***** private functions *****/
 
     protected function getKeyInfo()
     {
@@ -115,6 +107,19 @@ class Module extends \Aurora\System\Module\AbstractModule
         }
 
         return $mResult;
+    }
+
+    public function GetLicenseKey()
+    {
+        if (!isset($this->key)) {
+            $oSettings = \Aurora\System\Api::GetSettings();
+            if ($oSettings) {
+                $this->key = $oSettings->LicenseKey;
+                \Aurora\System\Api::AddSecret($this->key);
+            }
+        }
+
+        return $this->key;
     }
 
     public function GetUsersCount($Module)
@@ -164,46 +169,6 @@ class Module extends \Aurora\System\Module\AbstractModule
         return $bResult;
     }
 
-    public function GetSettings()
-    {
-        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
-
-        return array(
-            'LicenseKey' => Module::Decorator()->GetLicenseKey()
-        );
-    }
-
-    /**
-     * @return bool
-     */
-    public function UpdateSettings($LicenseKey)
-    {
-        $bResult = false;
-        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
-
-        if ($LicenseKey !== null) {
-            \Aurora\System\Api::GetSettings()->LicenseKey = $LicenseKey;
-            $bResult = \Aurora\System\Api::GetSettings()->Save();
-        }
-
-        return $bResult;
-    }
-
-    public function GetLicenseInfo($Module = 'System')
-    {
-        $mResult = false;
-        $aInfo = $this->GetPartKeyInfo($Module);
-        if (isset($aInfo[2])) {
-            $mResult = array(
-                'Count' => (int) $aInfo[0],
-                'DateTime' => $aInfo[1],
-                'Type' => (int) $aInfo[2],
-                'ExpiresIn' => $aInfo[1] !== '*' ? ceil(((int) $aInfo[1] - time()) / 60 / 60 / 24) : '*',
-            );
-        }
-        return $mResult;
-    }
-
     public function IsTrial($Module = 'System')
     {
         $mResult = false;
@@ -228,11 +193,61 @@ class Module extends \Aurora\System\Module\AbstractModule
         return $mResult;
     }
 
+    /***** private functions *****/
+
+    /***** public functions *****/
+    public function GetSettings()
+    {
+        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
+
+        return array(
+            'LicenseKey' => Module::Decorator()->GetLicenseKey()
+        );
+    }
+
+    /**
+     * @param string $LicenseKey
+     *
+     * @return bool
+     */
+    public function UpdateSettings($LicenseKey)
+    {
+        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
+
+        $bResult = false;
+
+        if ($LicenseKey !== null) {
+            \Aurora\System\Api::GetSettings()->LicenseKey = $LicenseKey;
+            $bResult = \Aurora\System\Api::GetSettings()->Save();
+        }
+
+        return $bResult;
+    }
+
+    public function GetLicenseInfo($Module = 'System')
+    {
+        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
+
+        $mResult = false;
+        $aInfo = $this->GetPartKeyInfo($Module);
+        if (isset($aInfo[2])) {
+            $mResult = array(
+                'Count' => (int) $aInfo[0],
+                'DateTime' => $aInfo[1],
+                'Type' => (int) $aInfo[2],
+                'ExpiresIn' => $aInfo[1] !== '*' ? ceil(((int) $aInfo[1] - time()) / 60 / 60 / 24) : '*',
+            );
+        }
+        return $mResult;
+    }
+
     /**
      * @return int
      */
     public function GetUserNumberLimitAsString()
     {
+        \Aurora\System\Api::checkUserRoleIsAtLeast(\Aurora\System\Enums\UserRole::SuperAdmin);
+
         $aInfo = $this->GetPartKeyInfo('System');
         $sResult = $aInfo ? 'Empty' : 'Invalid';
         if (isset($aInfo[2])) {
