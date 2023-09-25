@@ -7,7 +7,7 @@
 
 namespace Aurora\Modules\Licensing;
 
-include_once __DIR__.'/classes/KI.php';
+include_once __DIR__ . '/classes/KI.php';
 
 /**
  * @license https://www.gnu.org/licenses/agpl-3.0.html AGPL-3.0
@@ -154,7 +154,7 @@ class Module extends \Aurora\System\Module\AbstractModule
         $bResult = false;
 
         $sPeriod = $this->GetPartKeyData($sModule, 1);
-        $sType= $this->GetPartKeyData($sModule, 2);
+        $sType = $this->GetPartKeyData($sModule, 2);
 
         if (isset($sType)) {
             $iType = (int) $sType;
@@ -256,20 +256,20 @@ class Module extends \Aurora\System\Module\AbstractModule
                     $sResult = 'Unlim';
                     break;
                 case 1:
-                    $sResult = $aInfo[0].' users, Permanent';
+                    $sResult = $aInfo[0] . ' users, Permanent';
                     break;
                 case 2:
-                    $sResult = $aInfo[0].' domains';
+                    $sResult = $aInfo[0] . ' domains';
                     break;
                 case 3:
-                    $sResult =  $aInfo[0].' users, Annual';
+                    $sResult =  $aInfo[0] . ' users, Annual';
                     if (isset($aInfo[1]) && $aInfo[1] !== '*') {
                         $iTime = (int) $aInfo[1];
                         $iDeltaTime = $iTime - time();
                         if ($iDeltaTime > 0) {
-                            $sResult .= ', expires in '.ceil($iDeltaTime / 60 / 60 / 24).' day(s).';
+                            $sResult .= ', expires in ' . ceil($iDeltaTime / 60 / 60 / 24) . ' day(s).';
                         } else {
-                            $sResult = $aInfo[0].' users, Annual, Expired.
+                            $sResult = $aInfo[0] . ' users, Annual, Expired.
 This license is outdated, please contact Afterlogic to upgrade your license key.';
                         }
                     }
@@ -287,9 +287,9 @@ This license is outdated, please contact Afterlogic to upgrade your license key.
                         $iTime = (int) $aInfo[1];
                         $iDeltaTime = $iTime - time();
                         if ($iDeltaTime > 0) {
-                            $sResult .= ', expires in '.ceil($iDeltaTime / 60 / 60 / 24).' day(s).';
+                            $sResult .= ', expires in ' . ceil($iDeltaTime / 60 / 60 / 24) . ' day(s).';
                         } else {
-                            $sResult = $aInfo[0].' users, Annual, Expired.
+                            $sResult = $aInfo[0] . ' users, Annual, Expired.
 This license is outdated, please contact Afterlogic to upgrade your license key.';
                         }
                     }
