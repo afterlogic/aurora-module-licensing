@@ -83,6 +83,9 @@ class Module extends \Aurora\System\Module\AbstractModule
     {
         $mResult = false;
         $aKeyInfo = $this->getKeyInfo();
+        if (!isset($aKeyInfo[$sPart])) {
+            $sPart = 'System';
+        }
         if (isset($aKeyInfo[$sPart])) {
             $mResult = $aKeyInfo[$sPart];
         }
