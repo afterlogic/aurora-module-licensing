@@ -47,7 +47,7 @@ if [ -f "$CSFIXER" ]; then
     echo ""
     echo "Running CS Fixer..."
 
-    eval "php $CSFIXER fix ./ --rules=@PER --dry-run --using-cache=no"
+    eval "php $CSFIXER fix --rules=@PER --dry-run --using-cache=no"
 
     if [ $? != 0 ]
     then
