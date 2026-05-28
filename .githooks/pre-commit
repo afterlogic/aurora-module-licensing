@@ -52,7 +52,7 @@ if [ -f "$CSFIXER" ]; then
     if [ $? != 0 ]
     then
         echo "Fix formatting issues before commit."
-        echo "Run: 'php $CSFIXER fix ./ --rules=@PER --using-cache=no'"
+        echo "Run: 'php $CSFIXER fix --rules=@PER --using-cache=no'"
         exit 1
     fi
 fi
